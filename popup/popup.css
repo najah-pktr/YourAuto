@@ -1,0 +1,39 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  width: 260px;
+  padding: 12px;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+input, select {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: #1e293b;
+  color: white;
+}
+
+button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 6px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #2563eb;
+}
