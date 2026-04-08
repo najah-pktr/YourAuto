@@ -1,8 +1,10 @@
+const api = typeof browser !== "undefined" ? browser : chrome;
+
 const profileSelect = document.getElementById("profileSelect");
 
 // Load profiles
 function loadProfiles() {
-  chrome.storage.local.get("profiles", (res) => {
+  api.storage.local.get("profiles").then((res) => {
     const profiles = res.profiles || {};
 
     profileSelect.innerHTML = "";
@@ -18,11 +20,11 @@ function loadProfiles() {
   });
 }
 
-// Load selected profile data
+// Load selected profile
 function loadSelectedProfile() {
   const key = profileSelect.value;
 
-  chrome.storage.local.get("profiles", (res) => {
+  api.storage.local.get("profiles").then((res) => {
     const data = res.profiles?.[key];
     if (!data) return;
 
@@ -36,7 +38,7 @@ function loadSelectedProfile() {
 document.getElementById("save").onclick = () => {
   const key = profileSelect.value || "default";
 
-  chrome.storage.local.get("profiles", (res) => {
+  api.storage.local.get("profiles").then((res) => {
     const profiles = res.profiles || {};
 
     profiles[key] = {
@@ -45,22 +47,22 @@ document.getElementById("save").onclick = () => {
       phone: phone.value
     };
 
-    chrome.storage.local.set({ profiles }, () => {
+    api.storage.local.set({ profiles }).then(() => {
       alert("Saved!");
     });
   });
 };
 
-// Create new profile
+// New profile
 document.getElementById("newProfile").onclick = () => {
-  const name = prompt("Enter profile name:");
+  const name = prompt("Profile name:");
   if (!name) return;
 
-  chrome.storage.local.get("profiles", (res) => {
+  api.storage.local.get("profiles").then((res) => {
     const profiles = res.profiles || {};
     profiles[name] = {};
 
-    chrome.storage.local.set({ profiles }, loadProfiles);
+    api.storage.local.set({ profiles }).then(loadProfiles);
   });
 };
 

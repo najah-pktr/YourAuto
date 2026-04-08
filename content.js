@@ -16,20 +16,20 @@ function autofill(data) {
   const inputs = document.querySelectorAll("input");
 
   inputs.forEach((input) => {
-    const fieldType = detectField(input);
-
-    if (fieldType && data[fieldType]) {
-      input.value = data[fieldType];
+    const type = detectField(input);
+    if (type && data[type]) {
+      input.value = data[type];
     }
   });
 }
 
-// AUTO RUN when page loads
-chrome.storage.local.get("profiles", (res) => {
-  const profiles = res.profiles || {};
-  const firstProfile = Object.values(profiles)[0];
-
-  if (firstProfile) {
-    autofill(firstProfile);
+// Listen for trigger
+api.runtime.onMessage.addListener((req) => {
+  if (req.action === "autofill") {
+    api.storage.local.get("profiles").then((res) => {
+      const profiles = res.profiles || {};
+      const first = Object.values(profiles)[0];
+      if (first) autofill(first);
+    });
   }
 });
